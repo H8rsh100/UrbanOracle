@@ -112,7 +112,7 @@ h2 {
 /* Forms */
 .form-grid {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
     gap: 1.5rem;
     margin-bottom: 2rem;
 }
@@ -120,6 +120,7 @@ h2 {
 .input-group {
     display: flex;
     flex-direction: column;
+    min-width: 0; /* allows shrinking */
 }
 
 .input-group label {
@@ -137,6 +138,8 @@ h2 {
     border-radius: 8px;
     outline: none;
     transition: border-color 0.3s, box-shadow 0.3s;
+    width: 100%;
+    text-overflow: ellipsis;
 }
 
 .input-group input:focus, .input-group select:focus {
@@ -163,15 +166,16 @@ h2 {
 }
 
 /* Results Section */
-.prediction-results {
+.glass-form, .prediction-results {
     background: rgba(0, 0, 0, 0.2);
     border: 1px solid var(--card-border);
     border-radius: 12px;
     padding: 2rem;
     display: flex;
     flex-direction: column;
-    justify-content: flex-start;
+    justify-content: space-between;
     height: 100%;
+    width: 100%;
 }
 
 .prediction-results h3 {
