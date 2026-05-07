@@ -40,33 +40,42 @@
                     <div class="form-grid">
                         <div class="input-group">
                             <label>Hour (0-23)</label>
-                            <input type="number" name="hour" min="0" max="23" value="22" required>
+                            <input type="number" name="hour" min="0" max="23" required>
                         </div>
                         <div class="input-group">
                             <label>Day of Week (0-6)</label>
-                            <input type="number" name="day_of_week" min="0" max="6" value="5" required>
+                            <input type="number" name="day_of_week" min="0" max="6" required>
                         </div>
                         <div class="input-group">
                             <label>Month (1-12)</label>
-                            <input type="number" name="month" min="1" max="12" value="7" required>
+                            <input type="number" name="month" min="1" max="12" required>
                         </div>
                         <div class="input-group">
                             <label>District</label>
-                            <input type="text" name="district" value="11" required>
+                            <select name="district" required>
+                                <option value="" disabled selected>Select District</option>
+                                {% for d in districts %}
+                                <option value="{{ d }}">{{ d }}</option>
+                                {% endfor %}
+                            </select>
                         </div>
                         <div class="input-group">
                             <label>Crime Type</label>
-                            <select name="crime_type">
-                                <option value="BATTERY">BATTERY</option>
-                                <option value="THEFT">THEFT</option>
-                                <option value="NARCOTICS">NARCOTICS</option>
-                                <option value="ASSAULT">ASSAULT</option>
-                                <option value="BURGLARY">BURGLARY</option>
+                            <select name="crime_type" required>
+                                <option value="" disabled selected>Select Crime Type</option>
+                                {% for c in crime_types %}
+                                <option value="{{ c }}">{{ c }}</option>
+                                {% endfor %}
                             </select>
                         </div>
                         <div class="input-group">
                             <label>Location Description</label>
-                            <input type="text" name="location_desc" value="STREET" required>
+                            <select name="location_desc" required>
+                                <option value="" disabled selected>Select Location</option>
+                                {% for l in locations %}
+                                <option value="{{ l }}">{{ l }}</option>
+                                {% endfor %}
+                            </select>
                         </div>
                         <div class="input-group">
                             <label>Domestic</label>

@@ -34,7 +34,14 @@ except Exception as e:
 
 @app.route('/')
 def index():
-    return render_template('index.html')
+    districts = []
+    locations = []
+    crime_types = []
+    if encoders:
+        districts = encoders['District'].classes_.tolist()
+        locations = encoders['Location Description'].classes_.tolist()
+        crime_types = encoders['Primary Type'].classes_.tolist()
+    return render_template('index.html', districts=districts, locations=locations, crime_types=crime_types)
 
 @app.route('/predict', methods=['POST'])
 def predict():
