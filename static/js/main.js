@@ -13,6 +13,13 @@ document.addEventListener('DOMContentLoaded', () => {
         submitBtn.disabled = true;
 
         try {
+            // Show Lottie animation while predicting
+            resultsGrid.innerHTML = `
+                <div style="display: flex; justify-content: center; align-items: center; height: 100%; min-height: 250px;">
+                    <dotlottie-player src="/static/img/loading.lottie" background="transparent" speed="1" style="width: 200px; height: 200px;" loop autoplay></dotlottie-player>
+                </div>
+            `;
+            
             const response = await fetch('/predict', {
                 method: 'POST',
                 body: formData
