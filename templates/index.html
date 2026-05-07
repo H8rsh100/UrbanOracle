@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UrbanOracle Dashboard</title>
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="logo">
+            <span class="highlight">Urban</span>Oracle
+        </div>
+        <ul class="nav-links">
+            <li><a href="#predict-section">Predictor</a></li>
+            <li><a href="#analytics-section">Model Comparison</a></li>
+            <li><a href="#mlp-section">MLP Curves</a></li>
+            <li><a href="#hotspot-section">Hotspot Map</a></li>
+        </ul>
+    </nav>
+
+    <div class="container">
+        
+        <!-- PREDICT SECTION -->
+        <section id="predict-section" class="card fade-in">
+            <h2>Crime Prediction Interface</h2>
+            <p class="subtitle">Enter incident details to predict the likelihood of an arrest using our trained ML models.</p>
+            
+            <div class="split-layout">
+                <form id="predictForm" class="glass-form">
+                    <div class="form-grid">
+                        <div class="input-group">
+                            <label>Hour (0-23)</label>
+                            <input type="number" name="hour" min="0" max="23" value="22" required>
+                        </div>
+                        <div class="input-group">
+                            <label>Day of Week (0-6)</label>
+                            <input type="number" name="day_of_week" min="0" max="6" value="5" required>
+                        </div>
+                        <div class="input-group">
+                            <label>Month (1-12)</label>
+                            <input type="number" name="month" min="1" max="12" value="7" required>
+                        </div>
+                        <div class="input-group">
+                            <label>District</label>
+                            <input type="text" name="district" value="11" required>
+                        </div>
+                        <div class="input-group">
+                            <label>Crime Type</label>
+                            <select name="crime_type">
+                                <option value="BATTERY">BATTERY</option>
+                                <option value="THEFT">THEFT</option>
+                                <option value="NARCOTICS">NARCOTICS</option>
+                                <option value="ASSAULT">ASSAULT</option>
+                                <option value="BURGLARY">BURGLARY</option>
+                            </select>
+                        </div>
+                        <div class="input-group">
+                            <label>Location Description</label>
+                            <input type="text" name="location_desc" value="STREET" required>
+                        </div>
+                        <div class="input-group">
+                            <label>Domestic</label>
+                            <select name="domestic">
+                                <option value="0">No</option>
+                                <option value="1">Yes</option>
+                            </select>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn-primary">Run Prediction</button>
+                </form>
+                
+                <div class="prediction-results" id="predictionResults">
+                    <h3>Prediction Results</h3>
+                    <div class="results-grid" id="resultsGrid">
+                        <!-- Results injected here -->
+                        <p class="placeholder-text">Submit the form to see predictions from all models.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ANALYTICS SECTION -->
+        <section id="analytics-section" class="card fade-in">
+            <h2>Model Performance Comparison</h2>
+            <p class="subtitle">Accuracy, Precision, Recall, and F1-Score across all trained classifiers.</p>
+            <div class="chart-container">
+                <canvas id="comparisonChart"></canvas>
+            </div>
+        </section>
+
+        <!-- MLP HISTORY SECTION -->
+        <section id="mlp-section" class="card fade-in">
+            <h2>MLP Neural Network Training Curves</h2>
+            <p class="subtitle">Loss and Accuracy tracking over 20 Epochs.</p>
+            <div class="split-layout">
+                <div class="chart-container">
+                    <canvas id="lossChart"></canvas>
+                </div>
+                <div class="chart-container">
+                    <canvas id="accuracyChart"></canvas>
+                </div>
+            </div>
+        </section>
+
+        <!-- HOTSPOT SECTION -->
+        <section id="hotspot-section" class="card fade-in">
+            <h2>K-Means Crime Hotspot Map</h2>
+            <p class="subtitle">Top 10 crime hotspots clustered geographically across Chicago.</p>
+            <div id="map" class="map-container"></div>
+        </section>
+
+    </div>
+
+    <!-- Scripts -->
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Leaflet JS -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <!-- Custom JS -->
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+</html>

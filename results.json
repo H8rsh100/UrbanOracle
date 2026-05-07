@@ -1,0 +1,86 @@
+{
+    "Logistic Regression": {
+        "Accuracy": 0.8030071911091741,
+        "Precision": 0.0,
+        "Recall": 0.0,
+        "F1-Score": 0.0,
+        "Confusion Matrix": [
+            [
+                3685,
+                0
+            ],
+            [
+                904,
+                0
+            ]
+        ]
+    },
+    "SVM": {
+        "Accuracy": 0.8030071911091741,
+        "Precision": 0.0,
+        "Recall": 0.0,
+        "F1-Score": 0.0,
+        "Confusion Matrix": [
+            [
+                3685,
+                0
+            ],
+            [
+                904,
+                0
+            ]
+        ]
+    },
+    "Decision Tree": {
+        "Accuracy": 0.8001743299193724,
+        "Precision": 0.4935323383084577,
+        "Recall": 0.5486725663716814,
+        "F1-Score": 0.5196437925615506,
+        "Confusion Matrix": [
+            [
+                3176,
+                509
+            ],
+            [
+                408,
+                496
+            ]
+        ]
+    },
+    "Random Forest": {
+        "Accuracy": 0.857049466114622,
+        "Precision": 0.7627118644067796,
+        "Recall": 0.39823008849557523,
+        "F1-Score": 0.5232558139534884,
+        "Confusion Matrix": [
+            [
+                3573,
+                112
+            ],
+            [
+                544,
+                360
+            ]
+        ]
+    },
+    "Multivariate Linear Regression": {
+        "R2-Score": 0.09298937315175915,
+        "MSE": 1.0432542227534465
+    },
+    "MLP Neural Network": {
+        "Accuracy": 0.8494225321420789,
+        "Precision": 0.9346938775510204,
+        "Recall": 0.25331858407079644,
+        "F1-Score": 0.39860748476936464,
+        "Confusion Matrix": [
+            [
+                3669,
+                16
+            ],
+            [
+                675,
+                229
+            ]
+        ]
+    }
+}
