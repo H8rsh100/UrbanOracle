@@ -20,10 +20,12 @@ document.addEventListener('DOMContentLoaded', () => {
                 </div>
             `;
             
-            const response = await fetch('/predict', {
-                method: 'POST',
-                body: formData
-            });
+            // Enforce a minimum 3-second display of the Lottie animation
+            const [response] = await Promise.all([
+                fetch('/predict', { method: 'POST', body: formData }),
+                new Promise(resolve => setTimeout(resolve, 3000))
+            ]);
+            
             const data = await response.json();
             
             resultsGrid.innerHTML = '';
