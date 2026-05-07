@@ -59,7 +59,7 @@ def train_and_evaluate():
     evaluate_classification(svm, "SVM", X_train[:sample_size], y_class_train[:sample_size], X_test, y_class_test)
 
     # 3. Decision Tree Classifier
-    dt = DecisionTreeClassifier(max_depth=10, min_samples_leaf=5, random_state=42)
+    dt = DecisionTreeClassifier(max_depth=5, min_samples_leaf=50, random_state=42)
     dt_model = evaluate_classification(dt, "Decision Tree", X_train, y_class_train, X_test, y_class_test)
     joblib.dump(dt_model.feature_importances_.tolist(), 'models/saved/dt_feature_importances.pkl')
 

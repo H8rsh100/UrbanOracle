@@ -9,7 +9,7 @@ document.addEventListener('DOMContentLoaded', () => {
         
         const formData = new FormData(predictForm);
         const submitBtn = predictForm.querySelector('button');
-        submitBtn.textContent = 'Predicting...';
+        submitBtn.innerHTML = '<div class="spinner"></div> Predicting...';
         submitBtn.disabled = true;
 
         try {
