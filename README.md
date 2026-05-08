@@ -1,45 +1,144 @@
-# UrbanOracle — Urban Crime Pattern Predictor & Hotspot Analyzer
+# 🔍 UrbanOracle
+### Urban Crime Pattern Predictor & Hotspot Analyzer
 
-UrbanOracle is a machine learning-based web application that predicts the likelihood of arrests for reported crimes and identifies crime hotspots in Chicago. It serves as a project review submission for Supervised Learning and Neural Networks.
+> *"The city has patterns. We make them visible."*
 
-## Features
-- **Predictive Modeling**: Uses multiple ML models (Logistic Regression, SVM, Decision Tree, Random Forest, Multivariate Linear Regression) and an MLP Neural Network to predict arrest probability and a synthetic risk score.
-- **Hotspot Analysis**: Uses K-Means clustering to identify top 10 crime hotspots based on location coordinates, visualized on an interactive Leaflet.js map.
-- **Model Comparison**: Interactive dashboard comparing the accuracy and F1 scores of classical models alongside the MLP training curves.
+UrbanOracle is a full-stack machine learning web application that predicts 
+the likelihood of an arrest for any reported crime incident and maps the 
+highest-risk zones across Chicago — all in real time, through a sleek 
+interactive dashboard.
 
-## Installation
+Built with Python, Flask, scikit-learn, TensorFlow, and Leaflet.js on top 
+of 50,000+ real Chicago crime records.
 
-1. Clone the repository or navigate to the project folder.
-2. Ensure you have Python installed.
-3. Install dependencies:
-   ```bash
-   pip install -r requirements.txt
-   ```
-4. Place the `crimes.csv` dataset inside the `data/` folder. A sample of 50,000 rows is recommended for performance.
+---
 
-## Running the Training Scripts
+## ⚡ What It Does
 
-Before starting the Flask application, you must train the models. The training scripts automatically save the models and generate the required `.json` files for the dashboard.
+- **Runs 5 ML models simultaneously** on any crime incident and shows you 
+  every prediction side by side — Logistic Regression, SVM, Decision Tree, 
+  Random Forest, and a Keras MLP Neural Network
+- **Computes a Risk Score** using Multivariate Linear Regression — a 
+  continuous measure of incident severity beyond binary classification
+- **Identifies 10 crime hotspots** across Chicago using K-Means geographic 
+  clustering, rendered live on an interactive Leaflet.js map
+- **Visualizes model performance** with Chart.js — accuracy, F1, precision, 
+  recall, and MLP training curves all in one place
 
-1. **Train Classical Models**:
-   ```bash
-   python models/train_classical.py
-   ```
-2. **Train MLP Neural Network**:
-   ```bash
-   python models/train_mlp.py
-   ```
+---
 
-## Starting the Flask Application
+## 🧠 ML Concepts Covered
 
-Once the models are trained and saved in `models/saved/`, start the Flask server:
+| Concept | Implementation |
+|---|---|
+| Logistic Regression | Arrest classification baseline |
+| Support Vector Machine | RBF kernel binary classifier |
+| Decision Tree | Gini impurity split, feature importances |
+| Random Forest | 100-estimator ensemble classifier |
+| Multivariate Linear Regression | Risk score prediction |
+| MLP Neural Network | Keras 128→64→32→1, Adam, Dropout |
+| K-Means Clustering | Geographic hotspot detection |
+| PCA / Feature Engineering | TF-IDF encoding, StandardScaler, datetime parsing |
+
+---
+
+## 🛠️ Tech Stack
+
+Backend   →  Python 3.8+, Flask, scikit-learn, TensorFlow/Keras
+Frontend  →  Vanilla JS, Chart.js, Leaflet.js, Lottie
+Dataset   →  Chicago Crimes Dataset (Kaggle, 50k rows)
+
+---
+
+## 🚀 Getting Started
+
+### 1. Clone the repo
+```bash
+git clone https://github.com/yourusername/UrbanOracle.git
+cd UrbanOracle
+```
+
+### 2. Install dependencies
+```bash
+pip install -r requirements.txt
+```
+
+### 3. Drop in the dataset
+Place `crimes.csv` inside the `data/` folder.
+Get it here → [Chicago Crimes Dataset on Kaggle](https://www.kaggle.com/datasets/chicago/chicago-crime)
+
+### 4. Train the models
+```bash
+# Train all classical models (LR, SVM, DT, RF, Linear Reg)
+python models/train_classical.py
+
+# Train the MLP Neural Network
+python models/train_mlp.py
+```
+This generates `results.json` and `mlp_history.json` automatically.
+
+### 5. Launch the app
 ```bash
 python app.py
 ```
-Open your browser and navigate to `http://127.0.0.1:5000/`.
+Open → `http://127.0.0.1:5000`
 
-## API Routes
-- `POST /predict`: Accepts form input (hour, day of week, month, district, crime type, location desc, domestic) and returns predictions from all models.
-- `GET /analytics`: Returns the performance metrics (`results.json`) for the dashboard charts.
-- `GET /hotspot`: Returns K-Means cluster centers and sizes for map rendering.
-- `GET /history`: Returns the MLP training history (`mlp_history.json`) for the loss/accuracy curves.
+---
+
+## 📡 API Reference
+
+| Method | Route | Description |
+|---|---|---|
+| POST | `/api/predict` | Run all 5 models on incident input |
+| GET | `/api/analytics` | Model performance metrics (results.json) |
+| GET | `/api/hotspot` | K-Means cluster centers for map |
+| GET | `/api/history` | MLP training history (loss + accuracy curves) |
+
+---
+
+## 📁 Project Structure
+
+UrbanOracle/
+├── data/
+│   └── crimes.csv
+├── models/
+│   ├── train_classical.py
+│   ├── train_mlp.py
+│   └── saved/              ← .pkl and .h5 files go here after training
+├── preprocessing/
+│   └── preprocess.py
+├── routes/
+│   ├── predict.py
+│   └── hotspot.py
+├── static/
+│   ├── css/style.css
+│   └── js/main.js
+├── templates/
+│   └── index.html
+├── app.py
+├── requirements.txt
+└── README.md
+
+
+---
+
+## 🎓 Academic Context
+
+Built as a project review submission covering **Unit II (Supervised Learning)** 
+and **Unit IV (Neural Networks)** of the Machine Learning curriculum at 
+Vishwakarma Institute of Technology, Pune.
+
+---
+
+## 🔮 Future Scope
+
+- Elbow Method for optimal K selection in clustering
+- Live data feed via Chicago Data Portal API
+- SHAP explainability for individual predictions
+- LSTM-based temporal crime pattern forecasting
+- Docker + cloud deployment on AWS/GCP
+
+---
+
+*Made with 🧠 and way too much caffeine.*
+
