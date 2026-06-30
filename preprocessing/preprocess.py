@@ -63,7 +63,7 @@ def load_and_preprocess_data(data_path="data/crimes.csv", sample_size=50000):
     X = df[features]
     y_class = df['Arrest']
     y_reg = df['Risk_Score']
-    coords = df[['Latitude', 'Longitude']] # For clustering later
+    coords = df[['Latitude', 'Longitude', 'Hour']] # For clustering later
 
     # Scale features
     scaler = StandardScaler()

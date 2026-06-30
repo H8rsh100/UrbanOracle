@@ -185,7 +185,7 @@ h2 {
 }
 
 /* Results Section */
-.glass-form, .prediction-results {
+.glass-form {
     background: rgba(0, 0, 0, 0.2);
     border: 1px solid var(--card-border);
     border-radius: 12px;
@@ -194,6 +194,20 @@ h2 {
     flex-direction: column;
     justify-content: space-between;
     height: 100%;
+    width: 100%;
+}
+
+.prediction-results {
+    background: rgba(0, 0, 0, 0.2);
+    border: 1px solid var(--card-border);
+    border-radius: 12px;
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    height: 100%;
+    max-height: 485px;
+    overflow-y: auto;
     width: 100%;
 }
 
@@ -256,6 +270,75 @@ h2 {
 
 .fade-in {
     animation: fadeIn 0.8s ease forwards;
+}
+
+/* Results Tabs */
+.results-header-tabs {
+    display: flex;
+    gap: 1.5rem;
+    margin-bottom: 1.5rem;
+    border-bottom: 1px solid var(--card-border);
+    padding-bottom: 0.5rem;
+}
+.tab-btn {
+    background: none;
+    border: none;
+    color: var(--text-secondary);
+    font-size: 0.95rem;
+    font-weight: 600;
+    cursor: pointer;
+    padding-bottom: 0.5rem;
+    position: relative;
+    transition: color 0.2s;
+}
+.tab-btn:hover {
+    color: var(--text-primary);
+}
+.tab-btn.active {
+    color: var(--accent);
+}
+.tab-btn.active::after {
+    content: '';
+    position: absolute;
+    bottom: -1px;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: var(--accent);
+    box-shadow: 0 0 8px var(--accent);
+}
+
+/* Explainability attribution */
+.attribution-row {
+    margin-bottom: 0.75rem;
+    animation: fadeIn 0.5s ease;
+}
+.attribution-header {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.8rem;
+    margin-bottom: 0.25rem;
+}
+.attribution-name {
+    color: var(--text-secondary);
+}
+.attribution-bar-bg {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 4px;
+    height: 6px;
+    width: 100%;
+    overflow: hidden;
+}
+.attribution-bar {
+    height: 100%;
+    border-radius: 4px;
+    transition: width 1s ease-out;
+}
+.bar-high {
+    background: linear-gradient(90deg, #ff1744, #ff5252);
+}
+.bar-low {
+    background: linear-gradient(90deg, #00e676, #69f0ae);
 }
 
 /* Responsive */

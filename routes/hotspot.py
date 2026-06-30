@@ -19,7 +19,7 @@ try:
     sample_coords = coords.sample(min(10000, len(coords)), random_state=42)
     
     kmeans = KMeans(n_clusters=10, random_state=42, n_init=10)
-    kmeans.fit(sample_coords)
+    kmeans.fit(sample_coords[['Latitude', 'Longitude']])
     
     cluster_centers = kmeans.cluster_centers_.tolist()
     labels = kmeans.labels_

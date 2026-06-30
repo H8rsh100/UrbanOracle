@@ -89,13 +89,24 @@
                 </form>
                 
                 <div class="prediction-results" id="predictionResults">
-                    <h3>Prediction Results</h3>
-                    <div class="results-grid" id="resultsGrid">
-                        <!-- Results injected here -->
-                        <p class="placeholder-text">Submit the form to see predictions from all models.</p>
+                    <div class="results-header-tabs">
+                        <button class="tab-btn active" data-tab="predictions">Predictions</button>
+                        <button class="tab-btn" data-tab="explainability" id="explainTabBtn" style="display: none;">Explainability</button>
+                    </div>
+                    <div class="tab-content active" id="predictionsTab">
+                        <div class="results-grid" id="resultsGrid">
+                            <!-- Results injected here -->
+                            <p class="placeholder-text">Submit the form to see predictions from all models.</p>
+                        </div>
+                    </div>
+                    <div class="tab-content" id="explainabilityTab" style="display: none;">
+                        <div class="explainability-container" id="explainabilityContainer">
+                            <div id="attributionList">
+                                <!-- Attributions injected here -->
+                            </div>
+                        </div>
                     </div>
                 </div>
-            </div>
         </section>
 
         <!-- ANALYTICS SECTION -->

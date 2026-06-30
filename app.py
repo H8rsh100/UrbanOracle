@@ -84,9 +84,24 @@ def predict():
             mlp_prob = mlp_model.predict(features_scaled)[0][0]
             results['MLP Neural Network'] = float(mlp_prob)
 
-        return jsonify({"status": "success", "predictions": results})
+        # Feature Attribution calculation (Sensitivity analysis / LIME-like)
+        attributions = {}
+        if 'Random Forest' in models:
+            rf_model = models['Random Forest']
+            base_prob = rf_model.predict_proba(features_scaled)[0][1]
+            feature_names = ['Hour', 'Day of Week', 'Month', 'District', 'Crime Type', 'Location Description', 'Domestic']
+            for idx, f_name in enumerate(feature_names):
+                perturbed_features = features_scaled.copy()
+                perturbed_features[0][idx] = 0.0  # Set this feature to its mean
+                perturbed_prob = rf_model.predict_proba(perturbed_features)[0][1]
+                # Difference: positive means the input value increased arrest likelihood
+                attributions[f_name] = float(base_prob - perturbed_prob)
+
+        return jsonify({"status": "success", "predictions": results, "attributions": attributions})
         
     except Exception as e:
+        import traceback
+        traceback.print_exc()
         return jsonify({"status": "error", "message": str(e)}), 400
 
 @app.route('/analytics', methods=['GET'])

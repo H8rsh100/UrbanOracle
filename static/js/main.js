@@ -1,8 +1,36 @@
 document.addEventListener('DOMContentLoaded', () => {
     
-    // 1. Prediction Form Handler
+    // 1. Prediction Form Handler and Tabs
     const predictForm = document.getElementById('predictForm');
     const resultsGrid = document.getElementById('resultsGrid');
+    const explainTabBtn = document.getElementById('explainTabBtn');
+    const attributionList = document.getElementById('attributionList');
+
+    const tabBtns = document.querySelectorAll('.tab-btn');
+    
+    function switchTab(tabId) {
+        tabBtns.forEach(btn => {
+            if (btn.getAttribute('data-tab') === tabId) {
+                btn.classList.add('active');
+            } else {
+                btn.classList.remove('active');
+            }
+        });
+        
+        if (tabId === 'predictions') {
+            document.getElementById('predictionsTab').style.display = 'block';
+            document.getElementById('explainabilityTab').style.display = 'none';
+        } else {
+            document.getElementById('predictionsTab').style.display = 'none';
+            document.getElementById('explainabilityTab').style.display = 'block';
+        }
+    }
+
+    tabBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+            switchTab(btn.getAttribute('data-tab'));
+        });
+    });
 
     predictForm.addEventListener('submit', async (e) => {
         e.preventDefault();
@@ -11,6 +39,10 @@ document.addEventListener('DOMContentLoaded', () => {
         const submitBtn = predictForm.querySelector('button');
         submitBtn.innerHTML = '<div class="spinner"></div> Predicting...';
         submitBtn.disabled = true;
+        
+        // Reset tabs state on new prediction
+        explainTabBtn.style.display = 'none';
+        switchTab('predictions');
 
         try {
             // Show Lottie animation while predicting
@@ -27,7 +59,6 @@ document.addEventListener('DOMContentLoaded', () => {
             ]);
             
             const data = await response.json();
-            
             resultsGrid.innerHTML = '';
             
             if (data.status === 'success') {
@@ -35,7 +66,6 @@ document.addEventListener('DOMContentLoaded', () => {
                     let isRisk = modelName === 'Risk Score';
                     let formattedScore = isRisk ? score.toFixed(2) : (score * 100).toFixed(2) + '%';
                     
-                    // Determine styling based on probability threshold
                     let valueClass = '';
                     if (!isRisk) {
                         valueClass = score > 0.5 ? 'value-high' : 'value-low';
@@ -48,6 +78,32 @@ document.addEventListener('DOMContentLoaded', () => {
                         <span class="result-value ${valueClass}">${formattedScore}</span>
                     `;
                     resultsGrid.appendChild(item);
+                }
+
+                // Render explainability
+                attributionList.innerHTML = '';
+                if (data.attributions && Object.keys(data.attributions).length > 0) {
+                    explainTabBtn.style.display = 'inline-block';
+                    for (const [feat, val] of Object.entries(data.attributions)) {
+                        const row = document.createElement('div');
+                        row.className = 'attribution-row';
+                        
+                        const percentage = Math.min(Math.abs(val) * 250, 100); // Scale up for visual representation
+                        const colorClass = val >= 0 ? 'bar-high' : 'bar-low';
+                        const sign = val >= 0 ? '+' : '-';
+                        const valText = `${sign}${(Math.abs(val) * 100).toFixed(1)}%`;
+                        
+                        row.innerHTML = `
+                            <div class="attribution-header">
+                                <span class="attribution-name">${feat}</span>
+                                <span class="attribution-val ${val >= 0 ? 'value-high' : 'value-low'}">${valText}</span>
+                            </div>
+                            <div class="attribution-bar-bg">
+                                <div class="attribution-bar ${colorClass}" style="width: ${percentage}%"></div>
+                            </div>
+                        `;
+                        attributionList.appendChild(row);
+                    }
                 }
             } else {
                 resultsGrid.innerHTML = `<p class="placeholder-text value-high">Error: ${data.message}</p>`;
