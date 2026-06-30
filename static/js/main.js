@@ -1,16 +1,4 @@
 document.addEventListener('DOMContentLoaded', () => {
-    
-    // Theme Customization Selector
-    const themeSelect = document.getElementById('theme-select');
-    const savedTheme = localStorage.getItem('urbanoracle-theme') || 'neon-blue';
-    document.body.setAttribute('data-theme', savedTheme);
-    themeSelect.value = savedTheme;
-
-    themeSelect.addEventListener('change', (e) => {
-        const theme = e.target.value;
-        document.body.setAttribute('data-theme', theme);
-        localStorage.setItem('urbanoracle-theme', theme);
-    });
 
     // District Insights Drill-down Panel
     const drilldownDistrict = document.getElementById('drilldown-district');
