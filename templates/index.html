@@ -20,12 +20,22 @@
         <div class="logo">
             <span class="highlight">Urban</span>Oracle
         </div>
-        <ul class="nav-links">
-            <li><a href="#predict-section">Predictor</a></li>
-            <li><a href="#analytics-section">Model Comparison</a></li>
-            <li><a href="#mlp-section">MLP Curves</a></li>
-            <li><a href="#hotspot-section">Hotspot Map</a></li>
-        </ul>
+        <div class="nav-right">
+            <ul class="nav-links">
+                <li><a href="#predict-section">Predictor</a></li>
+                <li><a href="#analytics-section">Model Comparison</a></li>
+                <li><a href="#mlp-section">MLP Curves</a></li>
+                <li><a href="#hotspot-section">Hotspot Map</a></li>
+            </ul>
+            <div class="theme-switcher">
+                <select id="theme-select" class="theme-select-dropdown">
+                    <option value="neon-blue">Neon Blue</option>
+                    <option value="cyberpunk-amber">Cyberpunk Amber</option>
+                    <option value="forest-green">Forest Green</option>
+                    <option value="deep-purple">Deep Purple</option>
+                </select>
+            </div>
+        </div>
     </nav>
 
     <div class="container">
@@ -111,10 +121,34 @@
 
         <!-- ANALYTICS SECTION -->
         <section id="analytics-section" class="card fade-in">
-            <h2>Model Performance Comparison</h2>
-            <p class="subtitle">Accuracy, Precision, Recall, and F1-Score across all trained classifiers.</p>
-            <div class="chart-container">
-                <canvas id="comparisonChart"></canvas>
+            <div class="split-layout">
+                <div class="chart-block" style="flex: 1.2; min-width: 0;">
+                    <h2>Model Performance Comparison</h2>
+                    <p class="subtitle">Accuracy, Precision, Recall, and F1-Score across all trained classifiers.</p>
+                    <div class="chart-container" style="height: 320px;">
+                        <canvas id="comparisonChart"></canvas>
+                    </div>
+                </div>
+                
+                <div class="district-drilldown-block" style="flex: 0.8; min-width: 0; display: flex; flex-direction: column;">
+                    <h2>District Insights Drill-down</h2>
+                    <p class="subtitle">Analyze localized crime statistics and arrest patterns historically.</p>
+                    
+                    <div class="drilldown-controls" style="margin-bottom: 1.2rem;">
+                        <select id="drilldown-district" class="map-control-select" style="width: 100%; max-width: 320px;">
+                            <option value="" disabled selected>Select District</option>
+                            {% for d in districts %}
+                            <option value="{{ d }}">District {{ d }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    
+                    <div id="district-insights-content" class="insights-content">
+                        <div class="placeholder-text-container">
+                            <p class="placeholder-text">Choose a district from the dropdown above to analyze localized incident rates, peak crime hours, and top categories.</p>
+                        </div>
+                    </div>
+                </div>
             </div>
         </section>
 

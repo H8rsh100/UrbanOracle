@@ -32,6 +32,28 @@ def load_and_preprocess_data(data_path="data/crimes.csv", sample_size=50000):
     df['DayOfWeek'] = df['Date'].dt.dayofweek
     df['Month'] = df['Date'].dt.month
 
+    # Boolean to int
+    df['Arrest'] = df['Arrest'].astype(int)
+    df['Domestic'] = df['Domestic'].astype(int)
+
+    # Compute district analytics before label encoding
+    district_analytics = {}
+    for d in df['District'].unique():
+        if pd.isna(d):
+            continue
+        dist_df = df[df['District'] == d]
+        total_crimes = len(dist_df)
+        arrest_rate = float(dist_df['Arrest'].mean()) if total_crimes > 0 else 0.0
+        peak_hour = int(dist_df['Hour'].mode()[0]) if total_crimes > 0 and not dist_df['Hour'].mode().empty else 0
+        top_crimes = dist_df['Primary Type'].value_counts().head(3).index.tolist()
+        
+        district_analytics[str(d)] = {
+            "total_crimes": total_crimes,
+            "arrest_rate": arrest_rate,
+            "peak_hour": peak_hour,
+            "top_crimes": top_crimes
+        }
+
     # Label Encode Categorical Features
     encoders = {}
     categorical_cols = ['Primary Type', 'Location Description', 'District']
@@ -40,10 +62,6 @@ def load_and_preprocess_data(data_path="data/crimes.csv", sample_size=50000):
         le = LabelEncoder()
         df[col] = le.fit_transform(df[col].astype(str))
         encoders[col] = le
-        
-    # Boolean to int
-    df['Arrest'] = df['Arrest'].astype(int)
-    df['Domestic'] = df['Domestic'].astype(int)
 
     # Create synthetic Risk Score for regression target
     # Higher for night hours (18-5), higher for specific crime types
@@ -90,7 +108,8 @@ def load_and_preprocess_data(data_path="data/crimes.csv", sample_size=50000):
         'X_train': X_train, 'y_class_train': y_class_train, 'y_reg_train': y_reg_train, 'coords_train': coords_train,
         'X_val': X_val, 'y_class_val': y_class_val, 'y_reg_val': y_reg_val, 'coords_val': coords_val,
         'X_test': X_test, 'y_class_test': y_class_test, 'y_reg_test': y_reg_test, 'coords_test': coords_test,
-        'full_coords': coords
+        'full_coords': coords,
+        'district_analytics': district_analytics
     }
 
 if __name__ == "__main__":

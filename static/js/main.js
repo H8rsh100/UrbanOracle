@@ -1,5 +1,79 @@
 document.addEventListener('DOMContentLoaded', () => {
     
+    // Theme Customization Selector
+    const themeSelect = document.getElementById('theme-select');
+    const savedTheme = localStorage.getItem('urbanoracle-theme') || 'neon-blue';
+    document.body.setAttribute('data-theme', savedTheme);
+    themeSelect.value = savedTheme;
+
+    themeSelect.addEventListener('change', (e) => {
+        const theme = e.target.value;
+        document.body.setAttribute('data-theme', theme);
+        localStorage.setItem('urbanoracle-theme', theme);
+    });
+
+    // District Insights Drill-down Panel
+    const drilldownDistrict = document.getElementById('drilldown-district');
+    const districtInsightsContent = document.getElementById('district-insights-content');
+
+    if (drilldownDistrict && districtInsightsContent) {
+        drilldownDistrict.addEventListener('change', () => {
+            const district = drilldownDistrict.value;
+            if (!district) return;
+
+            districtInsightsContent.innerHTML = `
+                <div style="display: flex; justify-content: center; align-items: center; min-height: 200px;">
+                    <div class="spinner"></div>
+                </div>
+            `;
+
+            fetch(`/district-analytics?district=${district}`)
+                .then(res => res.json())
+                .then(data => {
+                    if (data.error) {
+                        districtInsightsContent.innerHTML = `
+                            <div class="placeholder-text-container">
+                                <p class="placeholder-text" style="color: var(--danger);">${data.error}</p>
+                            </div>
+                        `;
+                        return;
+                    }
+
+                    const arrestRatePct = (data.arrest_rate * 100).toFixed(1);
+                    const isHighArrest = data.arrest_rate > 0.2; // 20% threshold
+
+                    districtInsightsContent.innerHTML = `
+                        <div class="insight-stat">
+                            <span class="insight-label">Total Historical Incidents</span>
+                            <span class="insight-value">${data.total_crimes.toLocaleString()}</span>
+                        </div>
+                        <div class="insight-stat">
+                            <span class="insight-label">Arrest Success Rate</span>
+                            <span class="insight-value ${isHighArrest ? 'value-low' : 'value-high'}">${arrestRatePct}%</span>
+                        </div>
+                        <div class="insight-stat">
+                            <span class="insight-label">Peak Crime Hour</span>
+                            <span class="insight-value">${data.peak_hour.toString().padStart(2, '0')}:00</span>
+                        </div>
+                        <div class="insight-stat">
+                            <span class="insight-label">Top 3 Crime Categories</span>
+                            <div class="top-crimes-list">
+                                ${data.top_crimes.map(c => `<span class="crime-tag">${c}</span>`).join('')}
+                            </div>
+                        </div>
+                    `;
+                })
+                .catch(err => {
+                    console.error("Error fetching district insights:", err);
+                    districtInsightsContent.innerHTML = `
+                        <div class="placeholder-text-container">
+                            <p class="placeholder-text" style="color: var(--danger);">Failed to load district insights.</p>
+                        </div>
+                    `;
+                });
+        });
+    }
+
     // 1. Prediction Form Handler and Tabs
     const predictForm = document.getElementById('predictForm');
     const resultsGrid = document.getElementById('resultsGrid');

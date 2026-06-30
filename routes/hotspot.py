@@ -66,3 +66,28 @@ def get_hotspots():
     except Exception as e:
         print(f"Error calculating hotspots: {e}")
         return jsonify([])
+
+@hotspot_bp.route('/district-analytics', methods=['GET'])
+def get_district_analytics():
+    dist = request.args.get('district', type=str)
+    if not dist:
+        return jsonify({"error": "District parameter is required"}), 400
+    
+    analytics_dict = data.get('district_analytics', {})
+    
+    # Normalize the district key
+    dist_key = dist
+    if dist_key not in analytics_dict:
+        try:
+            val = float(dist_key)
+            if str(val) in analytics_dict:
+                dist_key = str(val)
+            elif str(int(val)) in analytics_dict:
+                dist_key = str(int(val))
+        except ValueError:
+            pass
+            
+    if dist_key in analytics_dict:
+        return jsonify(analytics_dict[dist_key])
+    else:
+        return jsonify({"error": f"No analytics found for district {dist}"}), 404
