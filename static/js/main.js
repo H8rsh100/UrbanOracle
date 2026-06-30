@@ -254,7 +254,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 
     // 4. Initialize Hotspot Map
-    // Center of Chicago
     const map = L.map('map').setView([41.8781, -87.6298], 11);
     
     L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
@@ -263,25 +262,87 @@ document.addEventListener('DOMContentLoaded', () => {
         maxZoom: 20
     }).addTo(map);
 
-    fetch('/hotspot')
-        .then(res => res.json())
-        .then(data => {
-            if (!data.length) return;
-            
-            // Find max size to scale circles
-            const maxSize = Math.max(...data.map(d => d.size));
+    const startHourSelect = document.getElementById('start-hour');
+    const endHourSelect = document.getElementById('end-hour');
+    const mapRadiusSlider = document.getElementById('map-radius');
+    const radiusValLabel = document.getElementById('radius-val');
+    const heatmapToggle = document.getElementById('heatmap-toggle');
 
-            data.forEach(spot => {
-                // Calculate radius based on size relative to max
-                const radius = (spot.size / maxSize) * 2000 + 500;
+    let currentHotspots = [];
+    let mapLayers = [];
+
+    function clearMapLayers() {
+        mapLayers.forEach(layer => map.removeLayer(layer));
+        mapLayers = [];
+    }
+
+    function renderHotspots() {
+        clearMapLayers();
+        if (!currentHotspots.length) return;
+
+        const maxScale = parseInt(mapRadiusSlider.value);
+        const maxSize = Math.max(...currentHotspots.map(d => d.size)) || 1;
+
+        if (heatmapToggle.checked) {
+            // Render Heatmap
+            const heatPoints = currentHotspots.map(spot => {
+                const intensity = (spot.size / maxSize) * 0.8 + 0.2;
+                return [spot.lat, spot.lng, intensity];
+            });
+
+            const heatRadius = Math.max(15, Math.min(50, maxScale / 50));
+            const heatLayer = L.heatLayer(heatPoints, {
+                radius: heatRadius,
+                blur: 15,
+                maxZoom: 15,
+                max: 1.0
+            }).addTo(map);
+            
+            mapLayers.push(heatLayer);
+        } else {
+            // Render Circles
+            currentHotspots.forEach(spot => {
+                const radius = (spot.size / maxSize) * maxScale + 100;
                 
-                L.circle([spot.lat, spot.lng], {
+                const circle = L.circle([spot.lat, spot.lng], {
                     color: '#ff1744',
                     fillColor: '#ff1744',
-                    fillOpacity: 0.5,
+                    fillOpacity: 0.45,
                     radius: radius
                 }).addTo(map)
-                .bindPopup(`<b>Hotspot ID: ${spot.id}</b><br>Incidents Clustered: ${spot.size}`);
+                .bindPopup(`<b>Hotspot Cluster ID: ${spot.id}</b><br>Incidents in range: ${spot.size}`);
+                
+                mapLayers.push(circle);
             });
-        });
+        }
+    }
+
+    function loadHotspots() {
+        const startHour = startHourSelect.value;
+        const endHour = endHourSelect.value;
+
+        fetch(`/hotspot?hour_min=${startHour}&hour_max=${endHour}`)
+            .then(res => res.json())
+            .then(data => {
+                currentHotspots = data;
+                renderHotspots();
+            })
+            .catch(err => {
+                console.error("Error loading hotspots:", err);
+            });
+    }
+
+    // Event listeners
+    startHourSelect.addEventListener('change', loadHotspots);
+    endHourSelect.addEventListener('change', loadHotspots);
+    
+    mapRadiusSlider.addEventListener('input', () => {
+        radiusValLabel.textContent = mapRadiusSlider.value + 'm';
+        renderHotspots();
+    });
+
+    heatmapToggle.addEventListener('change', renderHotspots);
+
+    // Initial load
+    loadHotspots();
 });

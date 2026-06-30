@@ -347,3 +347,81 @@ h2 {
         grid-template-columns: 1fr;
     }
 }
+
+/* Map Controls */
+.map-controls {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+    align-items: center;
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid var(--card-border);
+    padding: 1rem 1.5rem;
+    border-radius: 8px;
+    margin-bottom: 1.5rem;
+}
+.map-controls .control-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+}
+.map-controls .checkbox-group {
+    flex-direction: row;
+    align-items: center;
+    gap: 0.5rem;
+    margin-top: 1.2rem;
+}
+.map-control-select {
+    background: rgba(0, 0, 0, 0.4);
+    border: 1px solid var(--card-border);
+    color: var(--text-primary);
+    padding: 0.5rem 1rem;
+    border-radius: 6px;
+    outline: none;
+    cursor: pointer;
+    font-size: 0.9rem;
+    width: 120px;
+}
+.map-control-select:focus {
+    border-color: var(--accent);
+}
+.slider-val-container {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+.map-control-slider {
+    -webkit-appearance: none;
+    width: 150px;
+    height: 6px;
+    border-radius: 3px;
+    background: rgba(255, 255, 255, 0.1);
+    outline: none;
+}
+.map-control-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background: var(--accent);
+    cursor: pointer;
+    box-shadow: 0 0 6px var(--accent);
+}
+#radius-val {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    min-width: 45px;
+}
+.checkbox-group label {
+    cursor: pointer;
+    font-size: 0.9rem;
+    user-select: none;
+    color: var(--text-primary);
+}
+.checkbox-group input[type="checkbox"] {
+    cursor: pointer;
+    width: 16px;
+    height: 16px;
+    accent-color: var(--accent);
+}

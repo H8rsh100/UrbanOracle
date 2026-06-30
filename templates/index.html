@@ -135,7 +135,38 @@
         <!-- HOTSPOT SECTION -->
         <section id="hotspot-section" class="card fade-in">
             <h2>K-Means Crime Hotspot Map</h2>
-            <p class="subtitle">Top 10 crime hotspots clustered geographically across Chicago.</p>
+            <p class="subtitle">Top crime hotspots clustered geographically across Chicago. Adjust filters to update hotspots dynamically.</p>
+            
+            <div class="map-controls">
+                <div class="control-group">
+                    <label>Start Hour</label>
+                    <select id="start-hour" class="map-control-select">
+                        {% for h in range(24) %}
+                        <option value="{{ h }}" {% if h == 0 %}selected{% endif %}>{{ "%02d:00" | format(h) }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="control-group">
+                    <label>End Hour</label>
+                    <select id="end-hour" class="map-control-select">
+                        {% for h in range(24) %}
+                        <option value="{{ h }}" {% if h == 23 %}selected{% endif %}>{{ "%02d:00" | format(h) }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="control-group">
+                    <label>Cluster Radius Scale</label>
+                    <div class="slider-val-container">
+                        <input type="range" id="map-radius" min="100" max="2500" value="1000" step="100" class="map-control-slider">
+                        <span id="radius-val">1000m</span>
+                    </div>
+                </div>
+                <div class="control-group checkbox-group">
+                    <input type="checkbox" id="heatmap-toggle">
+                    <label for="heatmap-toggle">Enable Heatmap Overlay</label>
+                </div>
+            </div>
+            
             <div id="map" class="map-container"></div>
         </section>
 
@@ -146,6 +177,8 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <!-- Leaflet JS -->
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <!-- Leaflet Heatmap Plugin -->
+    <script src="https://leaflet.github.io/Leaflet.heat/dist/leaflet-heat.js"></script>
     <!-- Lottie Player -->
     <script src="https://unpkg.com/@dotlottie/player-component@latest/dist/dotlottie-player.mjs" type="module"></script>
     <!-- Custom JS -->
