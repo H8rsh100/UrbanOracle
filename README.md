@@ -3,9 +3,14 @@
 
 > *"The city has patterns. We make them visible."*
 
+[![Python](https://img.shields.io/badge/Python-3.8+-3776AB?style=flat&logo=python&logoColor=white)](https://www.python.org/)
+[![Flask](https://img.shields.io/badge/Flask-2.0+-000000?style=flat&logo=flask&logoColor=white)](https://flask.palletsprojects.com/)
+[![TensorFlow](https://img.shields.io/badge/TensorFlow-2.0+-FF6F00?style=flat&logo=tensorflow&logoColor=white)](https://www.tensorflow.org/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+
 UrbanOracle is a full-stack machine learning web application that predicts 
 the likelihood of an arrest for any reported crime incident and maps the 
-highest-risk zones across Chicago — all in real time, through a sleek 
+highest-risk zones across Chicago - all in real time, through a sleek 
 interactive dashboard.
 
 Built with Python, Flask, scikit-learn, TensorFlow, and Leaflet.js on top 
@@ -16,13 +21,13 @@ of 50,000+ real Chicago crime records.
 ## ⚡ What It Does
 
 - **Runs 5 ML models simultaneously** on any crime incident and shows you 
-  every prediction side by side — Logistic Regression, SVM, Decision Tree, 
+  every prediction side by side - Logistic Regression, SVM, Decision Tree, 
   Random Forest, and a Keras MLP Neural Network
-- **Computes a Risk Score** using Multivariate Linear Regression — a 
+- **Computes a Risk Score** using Multivariate Linear Regression - a 
   continuous measure of incident severity beyond binary classification
 - **Identifies 10 crime hotspots** across Chicago using K-Means geographic 
   clustering, rendered live on an interactive Leaflet.js map
-- **Visualizes model performance** with Chart.js — accuracy, F1, precision, 
+- **Visualizes model performance** with Chart.js - accuracy, F1, precision, 
   recall, and MLP training curves all in one place
 
 ---
@@ -54,7 +59,7 @@ Dataset   →  Chicago Crimes Dataset (Kaggle, 50k rows)
 
 ### 1. Clone the repo
 ```bash
-git clone https://github.com/yourusername/UrbanOracle.git
+git clone https://github.com/H8rsh100/UrbanOracle.git
 cd UrbanOracle
 ```
 
@@ -122,11 +127,14 @@ UrbanOracle/
 
 ---
 
-## 🎓 Academic Context
+## ⚙️ GitHub Repository Configuration
 
-Built as a project review submission covering **Unit II (Supervised Learning)** 
-and **Unit IV (Neural Networks)** of the Machine Learning curriculum at 
-Vishwakarma Institute of Technology, Pune.
+To optimize your repository index card on GitHub, consider updating the following fields in your repo settings:
+
+* **About Section**:
+  > Urban Crime Pattern Predictor & Hotspot Analyzer running 5 ML models simultaneously (including Keras Neural Network and K-Means Clustering) built on 50k+ Chicago crime records.
+* **Topics/Keywords**:
+  `machine-learning`, `crime-prediction`, `flask`, `tensorflow`, `scikit-learn`, `data-science`, `python`
 
 ---
 
@@ -142,3 +150,8 @@ Vishwakarma Institute of Technology, Pune.
 
 *Made with 🧠 and way too much caffeine.*
 
+---
+
+## License
+
+MIT - see LICENSE.
